@@ -16,15 +16,15 @@ namespace timeClient
         {
             bool done = false;
             Socket receiverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
-            receiverSocket.Bind(groupEP);
-            var EP = groupEP as EndPoint;
+            IPEndPoint groupEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
+            receiverSocket.Bind(groupEndPoint);
+            var EndPoint = groupEndPoint as EndPoint;
             try
             {
                 while (!done)
                 {
                     byte[] bytes = new byte[1024];
-                    receiverSocket.ReceiveFrom(bytes, ref EP);
+                    receiverSocket.ReceiveFrom(bytes, ref EndPoint);
                     Console.Clear();
                     Console.WriteLine("Server time: {0} ", Encoding.ASCII.GetString(bytes, 0, bytes.Length));
                 }
@@ -41,7 +41,6 @@ namespace timeClient
         static void Main(string[] args)
         {
             StartListen();
-
         }
     }
 }
