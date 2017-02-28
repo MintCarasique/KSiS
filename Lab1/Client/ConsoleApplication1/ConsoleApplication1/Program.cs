@@ -15,18 +15,18 @@ namespace timeClient
         public static void StartListen()
         {
             bool done = false;
-            var listener = new UdpClient(listenPort);
-            var groupEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
-
+            Socket receiverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
+            receiverSocket.Bind(groupEP);
+            var EP = groupEP as EndPoint;
             try
             {
                 while (!done)
                 {
-                    //Console.WriteLine("I'm client.");
-                    byte[] bytes = listener.Receive(ref groupEndPoint);
+                    byte[] bytes = new byte[1024];
+                    receiverSocket.ReceiveFrom(bytes, ref EP);
                     Console.Clear();
-                    Console.WriteLine("Current time by server: {0} ", Encoding.ASCII.GetString(bytes, 0, bytes.Length));
-
+                    Console.WriteLine("Server time: {0} ", Encoding.ASCII.GetString(bytes, 0, bytes.Length));
                 }
             }
             catch (Exception e)
@@ -35,7 +35,7 @@ namespace timeClient
             }
             finally
             {
-                listener.Close();
+                receiverSocket.Close();
             }
         }
         static void Main(string[] args)

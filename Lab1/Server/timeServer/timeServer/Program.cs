@@ -12,10 +12,10 @@ namespace timeServer
     {
         public static void StartBroadcasting()
         {
-            Socket currentSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            currentSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+            Socket senderSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            senderSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             IPEndPoint endP = new IPEndPoint(IPAddress.Broadcast, 12209);
-            currentSocket.Connect(endP);
+            senderSocket.Connect(endP);
             while (true)
             {
                 
@@ -24,7 +24,7 @@ namespace timeServer
                 Console.WriteLine("Server is running");
                 string currentTime = DateTime.Now.ToLongTimeString();
                 byte[] sendbuf = Encoding.ASCII.GetBytes(currentTime);
-                currentSocket.Send(sendbuf);                
+                senderSocket.Send(sendbuf);                
                 Console.WriteLine("Current time: {0}", currentTime);                
             }
         }
