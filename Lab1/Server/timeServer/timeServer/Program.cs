@@ -10,22 +10,28 @@ namespace timeServer
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void StartBroadcasting()
         {
             Socket currentSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             currentSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-
             IPEndPoint endP = new IPEndPoint(IPAddress.Broadcast, 12209);
             currentSocket.Connect(endP);
-
-            Console.WriteLine("Server is working!");
             while (true)
             {
+                
                 System.Threading.Thread.Sleep(1000);
-                string curTime = DateTime.Now.ToLongTimeString();
-                byte[] sendbuf = Encoding.ASCII.GetBytes(curTime);
-                currentSocket.Send(sendbuf);
+                Console.Clear();
+                Console.WriteLine("Server is running");
+                string currentTime = DateTime.Now.ToLongTimeString();
+                byte[] sendbuf = Encoding.ASCII.GetBytes(currentTime);
+                currentSocket.Send(sendbuf);                
+                Console.WriteLine("Current time: {0}", currentTime);                
             }
+        }
+        
+        static void Main(string[] args)
+        {
+            StartBroadcasting();            
         }
     }
 }
