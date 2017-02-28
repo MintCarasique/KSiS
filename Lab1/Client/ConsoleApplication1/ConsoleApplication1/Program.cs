@@ -23,10 +23,10 @@ namespace timeClient
             {
                 while (!done)
                 {
-                    byte[] bytes = new byte[1024];
-                    receiverSocket.ReceiveFrom(bytes, ref EndPoint);
+                    byte[] byteBuffer = new byte[1024];
+                    receiverSocket.ReceiveFrom(byteBuffer, ref EndPoint);
                     Console.Clear();
-                    Console.WriteLine("Server time: {0} ", Encoding.ASCII.GetString(bytes, 0, bytes.Length));
+                    Console.WriteLine("Server time: {0} ", Encoding.ASCII.GetString(byteBuffer, 0, byteBuffer.Length));
                 }
             }
             catch (Exception e)
