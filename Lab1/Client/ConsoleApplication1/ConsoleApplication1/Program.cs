@@ -8,20 +8,18 @@ using System.Net.Sockets;
 
 namespace timeClient
 {
-    class Program
+    class timeClientProgram
     {
-        private const int listenPort = 12209;
-
+        private const int listenPort = 50255;
         public static void StartListen()
         {
-            bool done = false;
             Socket receiverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPEndPoint groupEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
-            receiverSocket.Bind(groupEndPoint);
-            var EndPoint = groupEndPoint as EndPoint;
+            IPEndPoint recEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
+            receiverSocket.Bind(recEndPoint);
+            var EndPoint = recEndPoint as EndPoint;
             try
             {
-                while (!done)
+                while (true)
                 {
                     byte[] byteBuffer = new byte[1024];
                     receiverSocket.ReceiveFrom(byteBuffer, ref EndPoint);
