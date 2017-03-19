@@ -16,5 +16,27 @@ namespace reverseClient
         {
             InitializeComponent();
         }
+        public void checkTextFields()
+        {
+            if (inputTextBox.Text == "")
+            {
+                reverseButton.Enabled = false;
+            }
+            else
+            {
+                reverseButton.Enabled = true;
+            }
+        }
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            inputTextBox.Clear();
+            outputTextBox.Clear();
+            checkTextFields();
+        }
+
+        private void inputTextBox_TextChanged(object sender, EventArgs e)
+        {
+            checkTextFields();
+        }
     }
 }
