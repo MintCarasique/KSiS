@@ -52,6 +52,7 @@
             this.reverseButton.TabIndex = 1;
             this.reverseButton.Text = "Reverse";
             this.reverseButton.UseVisualStyleBackColor = true;
+            this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
             // 
             // clearButton
             // 

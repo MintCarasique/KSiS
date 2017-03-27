@@ -10,6 +10,26 @@ namespace reverseClient
 {
     class clientTCP
     {
-
+        private string message;
+        private int sendingPort = 50255;
+        public clientTCP(string message)
+        {
+            this.message = message;
+        }
+        public string SendMessage()
+        {
+            byte[] buffer = new byte[1024];
+            IPEndPoint EndPoint = new IPEndPoint(IPAddress.Loopback, sendingPort);
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect(EndPoint);
+            string SendingMessage = message;
+            byte[] byteMessage = Encoding.UTF8.GetBytes(SendingMessage);
+            int byteSent = socket.Send(byteMessage);
+            int byteReceived = socket.Receive(buffer);
+            message = Encoding.UTF8.GetString(buffer, 0, byteReceived);
+            socket.Shutdown(SocketShutdown.Both);
+            socket.Close();
+            return message; 
+        }
     }
 }

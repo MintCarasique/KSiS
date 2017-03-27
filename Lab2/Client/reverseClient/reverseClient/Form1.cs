@@ -38,5 +38,18 @@ namespace reverseClient
         {
             checkTextFields();
         }
+
+        private void reverseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                clientTCP client = new clientTCP(inputTextBox.Text);
+                outputTextBox.Text = client.SendMessage();
+            }
+            catch(Exception exception)
+            {
+                outputTextBox.Text = exception.ToString();
+            }
+        }
     }
 }
