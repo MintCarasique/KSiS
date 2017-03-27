@@ -5,3 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
+
+namespace reverseClient
+{
+    class clientTCP
+    {
+
+    }
+}
