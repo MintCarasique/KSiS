@@ -19,7 +19,9 @@ namespace reverseClient
         public string SendMessage()
         {
             byte[] buffer = new byte[1024];
-            IPEndPoint EndPoint = new IPEndPoint(IPAddress.Loopback, sendingPort);
+            IPHostEntry HostEntry = Dns.GetHostEntry("");
+            IPAddress[] ipv4Adresses = Array.FindAll(HostEntry.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);            
+            IPEndPoint EndPoint = new IPEndPoint(ipv4Adresses[0], sendingPort);
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(EndPoint);
             string SendingMessage = message;

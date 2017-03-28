@@ -19,7 +19,20 @@ namespace reverseServer
         }
         public void startListen()
         {
-            IPEndPoint EndPoint = new IPEndPoint(IPAddress.Any, listenPort);
+            IPEndPoint EndPoint;
+            IPHostEntry hostEntry = Dns.GetHostEntry("");
+            IPAddress[] ipv4Addresses = Array.FindAll(hostEntry.AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
+                //throw new NoIpException();
+            if (ipv4Addresses.Length > 1)
+            {
+                Console.WriteLine("Choose IP-Address:");
+                for (int i = 0; i < ipv4Addresses.Length; i++)
+                    Console.WriteLine((i + 1).ToString() + "." + ipv4Addresses[i]);
+                var choice = int.Parse(Console.ReadLine());
+                EndPoint = new IPEndPoint(ipv4Addresses[choice - 1], listenPort);
+            }
+            else
+                EndPoint = new IPEndPoint(ipv4Addresses[0], listenPort);
             socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(EndPoint);
             socket.Listen(10);
